@@ -3,7 +3,6 @@ console.log('hello world')
 const postsBox = document.getElementById('posts-box')
 const spinnerBox = document.getElementById('spinner-box')
 const loadBtn = document.getElementById('load-btn')
-const endBox = document.getElementById('end-box')
 
 let visible = 3
 
@@ -37,15 +36,7 @@ const getData = () => {
                         </div>
                     `
                 });
-            }, 100)
-            console.log(response.size)  
-            if (response.size === 0) {
-                endBox.textContent = 'No posts added yet...'
-            }  
-            else if (response.size <= visible) {
-                loadBtn.classList.add('not-visible')
-                endBox.textContent = 'No more posts to load...'
-            }
+            }, 100)    
         },
         error: function(error){
             console.log(error)
