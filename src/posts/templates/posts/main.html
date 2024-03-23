@@ -10,9 +10,28 @@ posts
 {% endblock title %}
 
 {% block content %}
-    <!--{% for obj in qs %}
-        {{obj.title}} - {{obj.body}} <br>
-    {% endfor %}-->
+    <!-- Modal -->
+    <div class="modal fade" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">close</button>
+                    <button type="button" class="btn btn-green">+ add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-info mb-2" data-toggle="modal" data-target="#addPostModal">
+        add post
+    </button>
     <div id="posts-box"></div>
     <div id="spinner-box" class="text-center">
         <div class="spinner-border" role="status"></div>
