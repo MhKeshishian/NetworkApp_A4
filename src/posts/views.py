@@ -6,6 +6,8 @@ from .forms import PostForm
 from profiles.models import Profile
 from .utils import action_permission
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
 
 # Create your views here.
 
@@ -64,6 +66,7 @@ def load_post_data_view(request, num_posts):
             }
             data.append(item)
         return JsonResponse({'data':data[lower:upper], 'size': size})
+    return redirect('posts:main-board')
     
 @login_required
 def post_detail_data_view(request, pk):
@@ -76,6 +79,7 @@ def post_detail_data_view(request, pk):
         'logged_in': request.user.username,
     }
     return JsonResponse({'data': data})
+
 
 # def like_unlike_post(request):
 #     if request.is_ajax():
@@ -107,6 +111,7 @@ def like_unlike_post(request):
             return JsonResponse({'error': 'User not authenticated'}, status=403)  # Return error if user is not authenticated
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)  # Return error for invalid request
+    
 
 @login_required
 @action_permission
@@ -122,6 +127,7 @@ def update_post(request, pk):
             'title': new_title,
             'body': new_body,
         })
+    return redirect('posts:main-board')
 
 @login_required
 @action_permission
@@ -130,7 +136,8 @@ def delete_post(request, pk):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         obj.delete()
         return JsonResponse({'msg': 'some message'})
-    return JsonResponse({'msg': 'access denied - ajax only'})
+    # return JsonResponse({'msg': 'access denied - ajax only'})
+    return redirect('posts:main-board')
     
 def image_upload_view(request):
     # print(request.FILES)
