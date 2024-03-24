@@ -5,8 +5,11 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from .forms import PostForm
 from profiles.models import Profile
 from .utils import action_permission
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+@login_required
 def post_list_and_create(request):
     form = PostForm(request.POST or None)
     # qs = Post.objects.all()
@@ -39,6 +42,7 @@ def post_detail(request, pk):
 
     return render(request, 'posts/detail.html', context)
 
+@login_required
 def load_post_data_view(request, num_posts):
     if request.method == 'GET' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         visible = 3
@@ -61,6 +65,7 @@ def load_post_data_view(request, num_posts):
             data.append(item)
         return JsonResponse({'data':data[lower:upper], 'size': size})
     
+@login_required
 def post_detail_data_view(request, pk):
     obj = Post.objects.get(pk=pk)
     data = {
@@ -85,6 +90,7 @@ def post_detail_data_view(request, pk):
 #         return JsonResponse({'liked': liked, 'count': obj.like_count})
 
 @ensure_csrf_cookie  # Ensure that CSRF cookie is set
+@login_required
 def like_unlike_post(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Check if it's a POST request and AJAX
         pk = request.POST.get('pk')
@@ -102,7 +108,8 @@ def like_unlike_post(request):
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)  # Return error for invalid request
 
-
+@login_required
+@action_permission
 def update_post(request, pk):
     obj = Post.objects.get(pk=pk)
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -116,6 +123,7 @@ def update_post(request, pk):
             'body': new_body,
         })
 
+@login_required
 @action_permission
 def delete_post(request, pk):
     obj = Post.objects.get(pk=pk)
