@@ -171,7 +171,7 @@ postForm.addEventListener('submit', e=>{
 })
 
 addBtn.addEventListener('click', ()=> {
-    dropzone.classList.remove('not-visible')
+    !dropzone.classList.remove('not-visible')
 })
 
 closeBtns.forEach(btn=> btn.addEventListener('click', ()=>{
